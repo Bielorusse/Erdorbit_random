@@ -1,4 +1,4 @@
-Erdorbit_random V0.0.3 <br>
+Erdorbit_random V0.0.4 <br>
 Date: 20.06.2017 <br>
 Author: Thibaut Voirand <br>
 
@@ -8,6 +8,5 @@ Generates random orbital parameters, and draws the corresponding orbit in a ECEF
 I basically rewrote the Erdorbit script in Python3, to get to know the language, and added a random parameters generation feature, to find new ideas of interesting orbital parameters. <br>
 
 Added in this version:
-  - min and max label above parameters input
-  - up button, which rotates the drawing
-  - credits in the script
+  - rotation velocity corrected
+  - down button, which rotates the drawing
