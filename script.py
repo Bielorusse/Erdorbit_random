@@ -138,7 +138,7 @@ def computeCallBack():
 
     # planet parameters
     mu_planet = 398600.4418 # gravitational parameter
-    rot_planet = 360.0 / 86164.1004 # rotation velocity
+    rot_planet = - 360.0 / 86164.1004 # rotation velocity
 
     # plane angles
     alpha = random.uniform(float(alphaMin_input.get()), float(alphaMax_input.get())) * math.pi / 180
@@ -218,6 +218,34 @@ def upCallBack():
     # drawing positions on canvas
     line = canvas.create_line(pos_canvas)
 
+# callback function of down button
+def downCallBack():
+
+    # declaring global variables
+    global pos, alpha, beta, delta
+
+    # increase projection plane angle
+    alpha = alpha - 5 * math.pi / 180
+
+    # projection 3D positions on a 2D plane
+    pos_2d = []
+    for j in range(len(pos)):
+        pos_2d.append(proj(pos[j], alpha, beta, delta))
+
+    # converting coordinates to fit the canvas reference frame
+    pos_canvas = []
+    for j in range(len(pos_2d)):
+        pos_2d[j][0] = pos_2d[j][0] + canvas_height / 2
+        pos_2d[j][1] = -pos_2d[j][1] + canvas_height / 2
+        for k in range(len(pos_2d[j])):
+            pos_canvas.append(pos_2d[j][k])
+
+    # clearing canvas
+    canvas.delete('all')
+
+    # drawing positions on canvas
+    line = canvas.create_line(pos_canvas)
+
 # creating, dimensioning, and centering root window
 root = Tk()
 root.geometry('%dx%d+%d+%d' %
@@ -229,7 +257,7 @@ root.geometry('%dx%d+%d+%d' %
 # creating  and positioning header
 header = Frame(root)
 header.grid(row = 0, column = 0)
-headerLabel = Label(header, text = 'Erdorbit', font = 'Helvetica 20 bold')
+headerLabel = Label(header, text = 'Erdorbit_random', font = 'Helvetica 20 bold')
 headerLabel.pack()
 
 # creating and positioning simulation frame
@@ -239,7 +267,7 @@ simulationFrame.grid(row = 1, column = 0)
 # creating and positioning footer
 footer = Frame(root)
 footer.grid(row = 2, column = 0)
-footerLabel = Label(footer, text = 'Erdorbit_random v0.0.2')
+footerLabel = Label(footer, text = 'Erdorbit_random v0.0.4')
 footerLabel.pack()
 
 # creating parameters input frame
@@ -372,5 +400,9 @@ button.grid(row = 1, column = 0)
 # creating 'up' button
 upButton = Button(resultsFrame, text='up', command = upCallBack)
 upButton.grid(row = 1, column = 1)
+
+# creating 'down' button
+downButton = Button(resultsFrame, text='down', command = downCallBack)
+downButton.grid(row = 1, column = 2)
 
 root.mainloop()
